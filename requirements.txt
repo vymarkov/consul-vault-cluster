@@ -1,0 +1,4 @@
+virtualbox: 5.0.20-106931 Oracle VirtualBox
+docker-machine version 0.7.0, build a650a40
+docker-compose version 1.6.2, build 4d72027
+
