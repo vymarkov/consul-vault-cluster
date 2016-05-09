@@ -1,7 +1,13 @@
 backend "consul" {
-  address = "consul:8500"
-  path = "dev"
-  advertise_addr = "http://127.0.0.1"
+  address = "consul-lb"
+  path = "vault_dev"
+  advertise_addr = "http://consul-lb:8200"
+}
+
+ha_backend "consul" {
+  address = "consul-lb"
+  path = "vault_ha"
+  advertise_addr = "http://consul-lb:8200"
 }
 
 listener "tcp" {
