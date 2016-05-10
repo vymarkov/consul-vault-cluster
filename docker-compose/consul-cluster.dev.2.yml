@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  master:
+    image: consul:v0.6.4
+    hostname: master
+    environment:
+    - VIRTUAL_HOST=consul
+    - VIRTUAL_PORT=8500
+    ports:
+    - '53:53/udp' # The DNS server
+    - '8300:8300' # Server RPC address
+    - '8301:8301' # The Serf LAN port
+    - '8301:8301/udp' # The Serf LAN port
+    - '8302:8302' # The Serf WAN port
+    - '8302:8302/udp' # The Serf WAN port
+    - '8400:8400' # The CLI RPC endpoint
+    - '8500:8500' # The HTTP API
+    - '8600:8600' # The DNS server
+    - '8600:8600/udp' # The DNS server
+    command: agent -server -bootstrap-expect 2 -bind=0.0.0.0 -client=0.0.0.0 -data-dir /tmp/consul -ui-dir /ui
+    
+  slave:
+    image: consul:v0.6.4
+    links:
+    - master
+    environment:
+    - VIRTUAL_HOST=consul
+    - VIRTUAL_PORT=8500
+    ports:
+    - 8400
+    - 8500
+    command: agent -server -bind=0.0.0.0 -client=0.0.0.0 -data-dir /tmp/consul -ui-dir /ui -rejoin -retry-join=master # -node server01
+
+  consul-lb:
+    image: jwilder/nginx-proxy
+    links:
+    - slave
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ../nginx/nginx.tmpl:/app/nginx.tmpl:ro
+    ports:
+    - '80:80'

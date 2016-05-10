@@ -1,0 +1,44 @@
+# http -v DELETE $CONSUL_ADDR/v1/kv/ recurse==
+
+version: '2'
+
+services:
+  vault-leader:
+    image: cgswong/vault:0.5.2
+    ports:
+    - '8200:8200'
+    volumes:
+    - ../vault/config/dev.hcl:/etc/vault.hcl:ro
+    environment:
+    - VIRTUAL_HOST=vault
+    - VIRTUAL_PORT=8200
+    labels:
+    - 'env=dev'
+    - 'cluster=true'
+    - 'vault-role=leader'
+    - 'service=vault'
+    command: server -config /etc/vault.hcl
+  
+  vault-slave:
+    image: cgswong/vault:0.5.2
+    ports:
+    - 8200
+    environment:
+    - VIRTUAL_HOST=vault
+    - VIRTUAL_PORT=8200
+    labels:
+    - 'env=dev'
+    - 'cluster=true'
+    - 'vault-role=slave'
+    - 'service=vault'
+    volumes:
+    - ../vault/config/dev.hcl:/etc/vault.hcl:ro
+    command: server -config /etc/vault.hcl
+    
+  vault-lb:
+    image: jwilder/nginx-proxy
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ../nginx/nginx.tmpl:/app/nginx.tmpl:ro
+    ports:
+    - '8080:80'
