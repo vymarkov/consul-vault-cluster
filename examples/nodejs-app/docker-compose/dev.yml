@@ -1,0 +1,25 @@
+# for the first time you need to setup a Vault server,
+# at least add an auth app-id backend and one app id and user id 
+# please, refer to README.md in the root folder this repo.
+# 
+# app id and user id for the app-id auth backend pass to a Docker container
+# through the environment variables and saved in a Docker Compose config file,
+# in realworld applications you have to separate app id and user id from
+# configuration files if you use a version control system
+   
+version: '2'
+
+services:
+  app:
+    build: 
+      context: ..
+    ports:
+    - '3000:3000'
+    environment:
+    - VAULT_ADDR=$VAULT_ADDR
+    - VAULT_APP_ID=helloworld
+    - VAULT_USER_ID=user
+    volumes: 
+    - ./:/usr/src/app
+    - ./confd:/etc/confd:ro
+    entrypoint: ./entrypoint.sh

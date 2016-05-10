@@ -1,0 +1,9 @@
+[template]
+src = "app.conf.tmpl"
+dest = "/usr/src/app/.env.prod"
+keys = [
+  "/secret/mongodb/url",
+  "/secret/mongodb/user"
+]
+check_cmd = "npm start"
+reload_cmd = "npm run restart"

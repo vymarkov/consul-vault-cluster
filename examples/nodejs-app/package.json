@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/forever start --no-colors -a --uid=app ./bin/www",
+    "restart": "./node_modules/.bin/forever restart --no-colors app",
+    "stop": "./node_modules/.bin/forever stop --no-colors app"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "forever": "^0.15.1"
+  }
+}
