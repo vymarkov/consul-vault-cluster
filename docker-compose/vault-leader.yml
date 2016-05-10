@@ -4,9 +4,7 @@ version: '2'
 
 services:
   vault:
-    image: cgswong/vault:0.5.2
+    image: $VAULT_IMAGE
     ports:
     - '8200:8200'
-    volumes:
-    - ../vault/config/dev.hcl:/etc/vault.hcl:ro
     command: server -config /etc/vault.hcl
