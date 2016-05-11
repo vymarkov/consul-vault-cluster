@@ -31,32 +31,32 @@ the direnv [repo] (https://github.com/direnv/direnv). Next run command below:
   $ direnv allow
   
 Need to build a docker image for Consul.
-
+```  
   $ ./build-consul-image.sh
-  
+```  
 Run a Consul cluster: 
-
+```
   $ docker-compose -f docker-compose/consul-cluster.dev.2.yml up -d
-  
+```  
 Run a Vault cluster:
-
+```
   $ docker-compose -f docker-compose/vault-cluster.dev.yml up -d
-  
+```  
 Now a Consul + Vault cluster is readry for use. Try to connect the vault server using below command: 
-
+```
   $ vault status
-  
+```  
 For the first time you need to init the vault server:
-
+```
   $ vault init 
-
+```
 When the vault server was initialised you need to unseal using given shared keys from command above:
-
-  $ vault unseal <yourkey1>
-  $ vault unseal <yourkey1>
-  $ vault unseal <yourkey1>
-  
-That's all, the server was initialised and unsealed.
+```
+  $ vault unseal <your_key_1>
+  $ vault unseal <your_key_2>
+  $ vault unseal <your_key_3>
+```  
+That's all, the server is initialised and unsealed now.
 
 #### TODO
 ----
