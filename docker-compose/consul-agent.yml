@@ -2,7 +2,7 @@ version: '2'
 
 services:
   agent:
-    image: consul:v0.6.4
+    image: $CONSUL_IMAGE
     ports:
     - '53:53/udp'
     - '8300:8300'

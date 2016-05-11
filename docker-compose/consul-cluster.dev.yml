@@ -1,5 +1,5 @@
 master:
-  image: consul:v0.6.4
+  image: $CONSUL_IMAGE
   hostname: master
   environment:
   - VIRTUAL_HOST=slave
@@ -18,7 +18,7 @@ master:
   command: agent -server -bootstrap-expect 2 -bind=0.0.0.0 -client=0.0.0.0 -data-dir /tmp/consul -ui-dir /ui
   
 slave:
-  image: consul:v0.6.4
+  image: $CONSUL_IMAGE
   links:
   - master
   environment:
