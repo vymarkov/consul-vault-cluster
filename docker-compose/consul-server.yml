@@ -2,7 +2,7 @@ version: '2'
 
 services:
   consul:
-    image: consul:v0.6.4
+    image: $CONSUL_IMAGE
     ports:
     - '53:53/udp'
     - '8300:8300'
@@ -13,6 +13,10 @@ services:
     - '8400:8400'
     - '8500:8500'
     - '8600:8600'
-    # volumes:
-    # - /var/consul:/consul/data:rw
-    command: agent -server -bootstrap-expect $BOOTSTRAP_EXPECT -advertise=$DOCKER_MACHINE_IP -bind=0.0.0.0 -client=0.0.0.0 -ui $CONSUL_SERVER_OPTS # -config-dir /etc/consul.d
+    volumes:
+    - 'consul_data:/var/consul'
+    command: agent -server -bootstrap-expect $BOOTSTRAP_EXPECT -advertise=$DOCKER_MACHINE_IP -bind=0.0.0.0 -client=0.0.0.0 -ui-dir /ui $CONSUL_SERVER_OPTS -data-dir /var/consul -node server-leader # -config-dir /etc/consul.d
+
+volumes:
+  consul_data:
+    driver: local
