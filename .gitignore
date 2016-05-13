@@ -3,3 +3,4 @@ node_modules
 *.tfstate.backup
 *.local_override.tf
 .terraform
+*.tfplan
