@@ -5,4 +5,3 @@ resource "aws_ecr_repository" "consul" {
 resource "aws_ecr_repository" "vault" {
   name = "vault"
 }
-
