@@ -1,0 +1,4 @@
+export SHELL=/usr/bin/zsh
+export ROOT=$PWD
+export MACHINE_STORAGE_PATH=$PWD/.docker/machine
+export DOCKER_HOST=unix:///tmp/docker.sock

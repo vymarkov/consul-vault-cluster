@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  kitchen:
+    build:
+      context: .
+    volumes:
+    - ..:/usr/kitchen
+    - ../.tmp/vault/:/tmp/vault/
+    - ../kitchen/.envrc.example:/usr/kitchen/.envrc
+    - ../.ssh:/root/.ssh:ro
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    env_file: 
+    - .env 
+    tty: true
