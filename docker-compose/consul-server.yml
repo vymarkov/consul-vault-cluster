@@ -4,7 +4,6 @@ services:
   consul:
     image: $CONSUL_IMAGE
     ports:
-    - '53:53/udp'
     - '8300:8300'
     - '8301:8301'
     - '8301:8301/udp'
@@ -13,9 +12,11 @@ services:
     - '8400:8400'
     - '8500:8500'
     - '8600:8600'
+    environment:
+    - SERVICE_IGNORE=true
     volumes:
     - 'consul_data:/var/consul'
-    command: agent -server -bootstrap-expect $BOOTSTRAP_EXPECT -advertise=$DOCKER_MACHINE_IP -bind=0.0.0.0 -client=0.0.0.0 -ui-dir /ui $CONSUL_SERVER_OPTS -data-dir /var/consul -node server-leader # -config-dir /etc/consul.d
+    command: agent -server -advertise=$DOCKER_MACHINE_IP -bind=0.0.0.0 -client=0.0.0.0 -ui $CONSUL_SERVER_OPTS -data-dir /var/consul # -config-dir /etc/consul.d
 
 volumes:
   consul_data:

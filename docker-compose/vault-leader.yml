@@ -7,4 +7,8 @@ services:
     image: $VAULT_IMAGE
     ports:
     - '8200:8200'
+    environment: 
+    - VAULT_BACKEND=consul
+    - VAULT_ADVERTISE_ADDR=$VAULT_ADVERTISE_ADDR
+    - CONSUL_BACKEND_ADDR=$CONSUL_BACKEND_ADDR
     command: server -config /etc/vault.hcl
