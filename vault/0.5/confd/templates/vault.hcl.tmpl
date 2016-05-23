@@ -1,0 +1,15 @@
+{{ with $vault_backend := getenv "VAULT_BACKEND" }}
+{{ if eq $vault_backend "consul" }}
+backend "consul" {
+  address = "{{ getenv "CONSUL_BACKEND_ADDR" "127.0.0.1" }}"
+  path    = "{{ getenv "CONSUL_BACKEND_PATH" "vault" }}"
+}
+{{ end }}
+{{ end }}
+
+listener "tcp" {
+  address = "{{ getenv "LISTENER_ADDR" "0.0.0.0:8200" }}"
+  tls_disable = "{{ getenv "LISTENER_TLS_DISABLE" "1" }}"
+}
+
+disable_mlock = true

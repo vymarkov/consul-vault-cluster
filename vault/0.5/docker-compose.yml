@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  vault:
+    build:
+      context: .
+    ports: 
+    - '8200:8200'
+    environment: 
+    - VAULT_BACKEND=consul
+    - VAULT_ADVERTISE_ADDR=$VAULT_ADVERTISE_ADDR
+    - CONSUL_BACKEND_ADDR=consul-379711230.us-east-1.elb.amazonaws.com
+    command: server -config /etc/vault.hcl

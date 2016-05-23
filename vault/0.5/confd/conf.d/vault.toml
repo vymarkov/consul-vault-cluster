@@ -1,0 +1,5 @@
+[template]
+src = "vault.hcl.tmpl"
+dest = "/etc/vault.hcl"
+keys = [
+]

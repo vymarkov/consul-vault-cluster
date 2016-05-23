@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  vault:
+    build:
+      context: .
+    volumes:
+    - ./confd:/etc/confd:rw
+    - ./docker-entrypoint.sh:/entrypoint.sh:ro
+    ports: 
+    - '8200:8200'
+    command: server -dev
