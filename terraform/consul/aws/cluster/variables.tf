@@ -2,6 +2,10 @@ variable "consul_ami" {
   default = "ami-26d5af4c"
 }
 
+variable "consul_instance_type" {
+  default = "t2.nano"
+}
+
 variable "consul_key_path" {
   description = "Path to the private key specified by key_name."
   default     = "~/.ssh/id_rsa"

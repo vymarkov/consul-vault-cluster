@@ -4,8 +4,8 @@ node_modules
 *.local_override.tf
 .terraform
 *.tfplan
-.docker
 terraform.tfvars
 .ssh
 .tmp
-./kitchen/.env
+.docker
+kitchen/.env
