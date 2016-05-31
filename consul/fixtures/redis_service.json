@@ -1,0 +1,10 @@
+{
+  "Name": "redis",
+  "ID": "redis.0",
+  "Address": "127.0.0.1",
+  "Port": 6379,
+  "Check": {
+    "TCP": "127.0.0.1:6379",
+    "Interval": "10s"
+  }
+}
