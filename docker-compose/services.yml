@@ -1,0 +1,24 @@
+version: '2'
+
+services: 
+  redis:
+    image: redis
+    ports:
+    - '6369:6369'
+    environment:
+    - SERVICE_NAME=redis
+    
+  mongo:
+    image: vymarkov/mongo:3.2
+    dns:
+    - 192.168.99.104
+    - 8.8.8.8
+    ports:
+    - 27017
+    environment:
+    - SERVICE_NAME=mongo
+      
+networks:
+  consul:
+    external:
+      name: consul_default      

@@ -10,6 +10,7 @@ services:
     volumes:
     - ../vault/config/dev.hcl:/etc/vault.hcl:ro
     environment:
+    - SERVICE_NAME=vault
     - VIRTUAL_HOST=vault
     - VIRTUAL_PORT=8200
     labels:
@@ -24,6 +25,7 @@ services:
     ports:
     - 8200
     environment:
+    - SERVICE_NAME=vault
     - VIRTUAL_HOST=vault
     - VIRTUAL_PORT=8200
     labels:
@@ -37,6 +39,8 @@ services:
     
   vault-lb:
     image: jwilder/nginx-proxy
+    environment:
+    - SERVICE_NAME=vault-lb
     volumes:
     - /var/run/docker.sock:/tmp/docker.sock:ro
     - ../nginx/nginx.tmpl:/app/nginx.tmpl:ro
