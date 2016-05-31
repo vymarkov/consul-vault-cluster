@@ -1,14 +1,32 @@
+# Using the Dockerfile 
+# 
+#   You have an able to provison an infrastructure using this Dockerfile without 
+#   need to install all the necessary tools such Terraform, Consul, Vault, aws-cli, jq, etc to your 
+#   local workstation.
+#
+#   For the first you need to build a docker image from the Dockerfile. Firstly, install 
+#   Docker and Docker Compose on your local machine if needed and run the command below:   
+#     
+#      $ docker-compose build
+#   
+#   Now we can run a container from our image to provison our cluster or interact with a your cluster:
+#     
+#      $ docker-compose run --rm kitchen zsh
+#
+
 FROM golang:1.6-wheezy
 MAINTAINER Vitaly Markov <vymarkov@gmail.com>
 
-ENV TERM=xterm
 ENV DOCKER_VERSION=1.11.1
 ENV DOCKER_COMPOSE_VERSION=1.7.1
 ENV DOCKER_MACHINE_VERSION=0.7.0
 ENV TERRAFORM_VERSION=0.6.16
 ENV CONSUL_VERSION=0.6.4
 ENV VAULT_VERSION=0.5.2
+ENV MONGO_VERSION=3.0.12
+ENV REDIS_VERSION=3.2.0
 ENV JQ_VERSION=1.5
+ENV TERM=xterm
 
 RUN apt-get update &&\
   apt-get install git zsh httpie python-pip less unzip -y
@@ -55,8 +73,20 @@ RUN curl -OL https://releases.hashicorp.com/consul/$CONSUL_VERSION/consul_"$CONS
 # Vault
 RUN curl -OL https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_"$VAULT_VERSION"_linux_amd64.zip &&\
   unzip vault_"$VAULT_VERSION"_linux_amd64.zip &&\
-  mv vault /usr/local/bin/vault
+  mv vault /usr/local/bin/vault &&\
+  # Mongotools  
+  curl -OL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian71-${MONGO_VERSION}.tgz &&\
+  tar -xvf mongodb-linux-x86_64-debian71-${MONGO_VERSION}.tgz &&\
+  cd mongodb-linux-x86_64-debian71-${MONGO_VERSION}/bin &&\
+  mv bsondump mongo mongodump mongoexport mongofiles mongoimport mongooplog mongoperf mongorestore mongostat mongotop /usr/local/bin/
 
+RUN wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz &&\
+  tar -xvf redis-${REDIS_VERSION}.tar.gz && cd redis-${REDIS_VERSION} && make &&\
+  cp src/redis-cli /usr/local/bin/
+  
+RUN wget https://dl.eff.org/certbot-auto &&\
+  chmod a+x ./certbot-auto && mv certbot-auto /usr/local/bin 
+  
 RUN mkdir /usr/kitchen
 WORKDIR /usr/kitchen
 
