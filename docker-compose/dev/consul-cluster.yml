@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  consul_leader:
+    image: $CONSUL_IMAGE 
+    hostname: consul_leader
+    environment:
+    - SERVICE_IGNORE=true
+    - CONSUL_LOCAL_CONFIG=$CONSUL_SERVER_CONFIG
+    ports:
+    - '8300:8300' # Server RPC address
+    - '8301:8301' # The Serf LAN port
+    - '8301:8301/udp' # The Serf LAN port
+    - '8302:8302' # The Serf WAN port
+    - '8302:8302/udp' # The Serf WAN port
+    - '8400:8400' # The CLI RPC endpoint
+    - '8500:8500' # The HTTP API
+    - '8600:8600' # The DNS server 
+    command: agent -server -bootstrap-expect 2 -bind=0.0.0.0 -client=0.0.0.0 -data-dir /tmp/consul -config-dir /consul/config -ui
+    
+  consul_server:
+    image: $CONSUL_IMAGE
+    links:
+    - consul_leader
+    environment:
+    - SERVICE_IGNORE=true
+    - CONSUL_LOCAL_CONFIG=$CONSUL_AGENT_CONFIG
+    depends_on:
+    - consul_leader
+    ports:
+    - 8400
+    - 8500 
+    command: agent -server -bind=0.0.0.0 -client=0.0.0.0 -data-dir /tmp/consul -ui -rejoin -retry-join=consul_leader -config-dir /consul/config $CONSUL_SERVER_OPTS #-node server-01

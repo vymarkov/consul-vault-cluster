@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  vaultlb:
+    image: $NGINX_CONSUL_TEMPLATE_IMAGE
+    environment:
+    - SERVICE_IGNORE=true
+    - CONSUL_KV_PREFIX=nginx
+    - CONSUL_HTTP_ADDR=$CONSUL_HTTP_ADDR
+    networks:
+    - consul
+    ports:
+    - '80:80'
+    - '443:443'
+    
+networks:
+  consul:
+    external:
+      name: consul-proxy

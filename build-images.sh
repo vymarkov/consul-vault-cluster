@@ -10,5 +10,6 @@
 # gosu switches to the consul user and run command on behalf of this user
 # and unfortunately we can't use a mounted docker volume from host machine  
  
-docker build -t consul-dev -f "$ROOT/consul/0.6/Dockerfile" "$ROOT/consul/0.6"
-docker build -t vault-dev -f "$ROOT/vault/0.5/Dockerfile" "$ROOT/vault/0.5"
+docker build -t ${CONSUL_IMAGE:-consul-dev} -f "$ROOT/consul/0.6/Dockerfile" $@ "$ROOT/consul/0.6" 
+docker build -t ${VAULT_IMAGE:-vault-dev} -f "$ROOT/vault/0.5/Dockerfile" $@ "$ROOT/vault/0.5"
+docker build -t ${NGINX_CONSUL_TEMPLATE_IMAGE} -f "$ROOT/nginx-consul-template/Dockerfile" $@ "$ROOT/nginx-consul-template" 

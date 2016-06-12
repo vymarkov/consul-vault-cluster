@@ -1,11 +1,18 @@
-{{ with $vault_backend := getenv "VAULT_BACKEND" }}
-{{ if eq $vault_backend "consul" }}
+{{ with $vault_backend := getenv "VAULT_BACKEND" }} {{ if eq $vault_backend "consul" }}
 backend "consul" {
-  address = "{{ getenv "CONSUL_BACKEND_ADDR" "127.0.0.1" }}"
-  path    = "{{ getenv "CONSUL_BACKEND_PATH" "vault" }}"
-}
-{{ end }}
-{{ end }}
+  address = "{{ getenv "VAULT_BACKEND_ADDR" "127.0.0.1" }}"
+  path    = "{{ getenv "VAULT_BACKEND_PATH" "vault" }}"
+  token   = "{{ getenv "CONSUL_TOKEN" "yourtoken" }}"
+  advertise_addr = "{{ getenv "VAULT_ADVERTISE_ADDR" "http://127.0.0.1:8200" }}"
+} {{ end }} {{ end }}
+
+{{ with $vault_ha_backend := getenv "VAULT_HA_BACKEND" }} {{ if eq $vault_ha_backend "consul" }}
+ha_backend "consul" {
+  address = "{{ getenv "VAULT_HA_BACKEND_ADDR" "127.0.0.1" }}"
+  path    = "{{ getenv "VAULT_HA_BACKEND_PATH" "vault_ha" }}"
+  token   = "{{ getenv "CONSUL_TOKEN" "yourtoken" }}"
+  advertise_addr = "{{ getenv "VAULT_ADVERTISE_ADDR" "http://127.0.0.1:8200" }}"
+} {{ end }} {{ end }}
 
 listener "tcp" {
   address = "{{ getenv "LISTENER_ADDR" "0.0.0.0:8200" }}"

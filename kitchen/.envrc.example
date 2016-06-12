@@ -1,4 +1,12 @@
 export SHELL=/usr/bin/zsh
 export ROOT=$PWD
 export MACHINE_STORAGE_PATH=$PWD/.docker/machine
+export COMPOSE_PROJECT_NAME=consul
 export DOCKER_HOST=unix:///tmp/docker.sock
+export CONSUL_HTTP_ADDR="agent:8500"
+
+export CONSUL_ADDR="$DOCKER_MACHINE_IP:8500"
+export VAULT_ADDR="http://$DOCKER_MACHINE_IP:8200"
+
+export CONSUL_SERVER_CONFIG=$(cat $ROOT/docker-compose/dev/consul/consul_server.json)
+export CONSUL_AGENT_CONFIG=$(cat $ROOT/docker-compose/dev/consul/consul_agent.json)

@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# FOR DEVELOPMENT PURPOSES
+
+set -e
+
 mkdir -p /tmp/vault
 
-VAULT_PATH=${VAULT_PATH:-"/tmp/vault/config.json"}
+VAULT_PATH=${VAULT_CONFIG_PATH:-"/tmp/vault/config.json"}
 secret_shares=${VAULT_SECRET_SHARES-1}
 secret_threshold=${VAULT_SECRET_THESHOULD-1}
 
 init_services() {
-  host_ip=$HOST_IP
+  host_ip=$DOCKER_MACHINE_IP
   services=$(docker ps -f label=cluster=true -f label=env=dev -f label=cluster=true -f label=service=vault --format "{{.ID}}")
   for cid in $services
   do 
@@ -69,18 +73,4 @@ init_vault() {
   fi
 }
 
-case "$1" in
-  "cluster")
-    init_services
-  ;;
-  "single")
-    init_vault_server
-  ;;
-  *)
-    echo ""
-    echo "  Use a follow command to init Vault cluster which is running on single Docker host:"
-    echo ""
-    echo "    $ ./vault_init cluster"
-    echo ""
-  ;;
-esac
+init_services

@@ -8,6 +8,7 @@ services:
     - '8600'
     environment:
     - SERVICE_IGNORE=yes
+    - CONSUL_LOCAL_CONFIG=$CONSUL_AGENT_CONFIG
     networks:
     - consul
     command: agent -bind=0.0.0.0 -client=0.0.0.0 -rejoin -retry-join=consul_leader $CONSUL_AGENT_OPTS

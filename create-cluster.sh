@@ -93,7 +93,6 @@ function print_consul_webui_endpoint() {
   done
 }
 
-
 ##### MAIN SCRIPT #############
 create_consul_cluster
 create_consul_agents

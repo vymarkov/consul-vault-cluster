@@ -1,0 +1,5 @@
+{
+	"datacenter": "dc1",
+	"acl_datacenter": "dc1",
+	"acl_token": "secret"
+}
