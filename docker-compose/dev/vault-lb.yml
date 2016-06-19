@@ -53,6 +53,7 @@ services:
   vault-lb:
     build:
       context: ../../nginx-consul-template
+    container_name: vaultlb      
     environment:
     - SERVICE_IGNORE=true
     - VIRTUAL_HOST=$VAULT_LB_VIRTUAL_HOST

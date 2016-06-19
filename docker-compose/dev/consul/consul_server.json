@@ -2,5 +2,5 @@
 	"datacenter": "dc1",
 	"acl_datacenter": "dc1",
 	"acl_default_policy": "deny",
-	"acl_master_token": "secret"
+	"acl_master_token": "$CONSUL_MASTER_TOKEN"
 }

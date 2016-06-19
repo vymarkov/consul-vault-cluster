@@ -1,1 +1,0 @@
-{{with secret "secret/database/user"}}{{.Data.value}}{{end}

@@ -1,0 +1,24 @@
+# http -v DELETE $CONSUL_ADDR/v1/kv/ recurse==
+
+version: '2'
+
+services:
+  vault:
+    image: $VAULT_IMAGE
+    container_name: vault
+    ports:
+    - '8200:8200'
+    environment: 
+    - SERVICE_NAME=vault
+    - SERVICE_TAGS=v1
+    - SERVICE_CHECK_TCP=true
+    - SERVICE_CHECK_HTTP=/v1/sys/health?standbyok
+    - SERVICE_CHECK_INTERVAL=15s
+    - SERVICE_CHECK_TIMEOUT=5s
+    - VAULT_BACKEND=consul
+    - VAULT_ADVERTISE_ADDR=$VAULT_ADDR
+    - VAULT_BACKEND_ADDR=$CONSUL_ADDR
+    - VAULT_HA_BACKEND=consul
+    - VAULT_HA_BACKEND_ADDR=$CONSUL_ADDR
+    - CONSUL_TOKEN=$CONSUL_TOKEN
+    command: server -config /etc/vault.hcl

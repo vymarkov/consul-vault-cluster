@@ -1,6 +1,7 @@
 {
   "Name": "redis",
   "ID": "redis.0",
+  "Node": "vault-server-01",
   "Address": "127.0.0.1",
   "Port": 6379,
   "Check": {

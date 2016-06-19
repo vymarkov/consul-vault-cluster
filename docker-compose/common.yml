@@ -1,12 +1,13 @@
 # how to use:
-#   DOCKER_MACHINE_IP=54.197.20.233 CONSUL_BACKEND_ADDR=consul:8500 docker-compose -f common.yml up -d
+#   DOCKER_MACHINE_IP=54.197.20.233 CONSUL_HTTP_ADDR=consul:8500 docker-compose -f common.yml up -d
 
 version: '2'
 
 services:
   registrator:
     image: gliderlabs/registrator
+    container_name: registrator
     volumes:
     - /var/run/docker.sock:/tmp/docker.sock:ro 
-    command: -resync 5 -ttl 30 -ttl-refresh 25 -ip $DOCKER_MACHINE_IP consul://$CONSUL_BACKEND_ADDR
+    command: -resync 5 -ttl 30 -ttl-refresh 25 -ip $DOCKER_MACHINE_IP consul://$CONSUL_HTTP_ADDR
   
